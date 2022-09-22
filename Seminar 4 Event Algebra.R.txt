@@ -1,0 +1,66 @@
+Dice <- 1:6
+sample(Dice, 1)
+
+set1<-sample(Dice, replace=F, 3) #throw a dice 3 times
+set2<-sample(Dice, replace=F, size=4) #throw a dice 4 times
+set3<-sample(Dice, replace=T, 4) #бросить кость 4 раза с повтором
+
+# how to simulate random events
+Coin <- c("Head", "Tail")    # Create a vector named Coin
+print(Coin) #The sample space
+
+sample(x = Coin, size = 1, replace = TRUE, prob = c(1/3,2/3)) # Throw a coin for size=1 time
+sample(x = Coin, size = 3, replace = TRUE, prob = c(1/3,2/3)) # Throw a coin for size=3 times
+
+#Intersections of events
+intersect(set1, set2) # intersecting 2 sets
+intersect(set2, set3)
+intersect(set1,intersect(set2,set3)) # intersecting 3 sets
+
+
+union(set2, set1) #union 2 sets
+union(union(set1, set2),set3) #union 3 sets
+
+
+setdiff(set3, set1) # all elements in set1 if they are not in set2
+
+setequal(set1, set2) #is set1 equal to set2
+
+#explain
+setequal(union(set1, set2),
+         c(setdiff(set1, set2), intersect(set1, set2), setdiff(set2, set1)))
+
+unique(set3<-sample(Dice, replace=T, 5)) #transform to a vector with non repeated values
+
+A<-c(0,1)
+notA<-c(1,0) 
+#or
+!A #negate a binary set
+B<-c(0,1)
+notB=notA
+union(A,notB) #left part
+union(A,intersect(notA,notB)) #right part
+#or
+setequal(union(A,notB),union(A,intersect(notA,notB)))
+
+#learn more here
+#https://rstudio-pubs-static.s3.amazonaws.com/318220_fe0f62e9f9bf4ab9a00858631872b65e.html
+
+set4<-c(1,0,0,1)
+!set4 #negate a binary set
+
+# Load library
+library(VennDiagram)
+# Chart
+
+draw.single.venn(area = 10)     # Create single venn diagram
+venn.plot<-venn.diagram(x = list(set1, set2, set3), category.names = c("Set 1" , "Set 2 " , "Set 3"),filename = NULL)
+grid.draw(venn.plot);
+grid.newpage()                                        # Move to new plotting page
+
+
+
+grid.newpage()                                        # Move to new plotting page
+draw.pairwise.venn(area1 = set1,                        # Create pairwise venn diagram
+                   area2 = set3,
+                   cross.area = 1)

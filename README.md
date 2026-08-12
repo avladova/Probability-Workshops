@@ -42,20 +42,20 @@ of the *Data Analysis* course. Materials are used in classroom seminars and incl
 
 ## 🗺️ Curriculum Map
 
-| # | Topic | File |
-|---|-------|------|
-| 04 | Event Algebra | `seminars/seminar-04-event-algebra.R` |
-| 05 | Introduction to Probability | `seminars/seminar-05-intro-to-probability.R` |
-| 06 | Combinatorics | `seminars/seminar-06-combinatorics.R` |
-| 06a | Geometric Probability | `seminars/seminar-06a-geometric-probability.R` |
-| 07 | Conditional Probability & Bayes | `seminars/seminar-07-conditional-probability.R` |
-| 08 | PMF & CDF | `seminars/seminar-08-pmf-cdf.R` |
-| 09 | Bernoulli & Binomial Distributions | `seminars/seminar-09-bernoulli-binomial.R` |
-| 10 | Hypergeometric & Poisson Distributions | `seminars/seminar-10-hypergeometric-poisson.R` |
-| 11 | Covariance and Correlation | `seminars/seminar-11-covariance-correlation.R` |
-| 12 | Continuous Random Variables | `seminars/seminar-12-continuous-random-variables.R` |
-| 14 | Jointly Distributed Discrete RVs | `seminars/seminar-14-jointly-distributed-discrete.R` |
-| 17 | Central Limit Theorem | `seminars/seminar-17-central-limit-theorem.R` |
+| # | Topic | 
+|---|-------|
+| 04 | Event Algebra | 
+| 05 | Introduction to Probability |
+| 06 | Combinatorics |
+| 06a | Geometric Probability |
+| 07 | Conditional Probability & Bayes |
+| 08 | PMF & CDF | 
+| 09 | Bernoulli & Binomial Distributions |
+| 10 | Hypergeometric & Poisson Distributions |
+| 11 | Covariance and Correlation |
+| 12 | Continuous Random Variables |
+| 14 | Jointly Distributed Discrete RVs |
+| 17 | Central Limit Theorem |
 
 ---
 

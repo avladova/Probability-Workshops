@@ -95,30 +95,6 @@ A normal distribution with a mean of 0 and a standard deviation of 1.
 ### Descriptive Statistics — Описательная статистика
 Methods for summarizing and presenting data, such as measures of central tendency and dispersion.
 
-### Null Hypothesis H₀ — Нулевая гипотеза
-The statement being tested in hypothesis testing; often a statement of no effect or no difference.
-
-### Alternative Hypothesis H₁ — Альтернативная гипотеза
-The statement that is accepted if the null hypothesis is rejected.
-
-### Type I Error — Ошибка первого рода
-Rejecting the null hypothesis when it is true.
-
-### Type II Error — Ошибка второго рода
-Failing to reject the null hypothesis when it is false.
-
-### Hypothesis Testing — Проверка гипотез
-A statistical method used to make inferences about a population based on sample data.
-
-### Confidence Interval — Доверительный интервал
-A range of values that is likely to contain the true value of a population parameter.
-
-### Significance Level — Уровень значимости
-The probability of rejecting a true null hypothesis.
-
-### p-value — p-значение
-The probability of observing the data (or more extreme data) if the null hypothesis is true.
-
 ### Student's t-distribution — Распределение Стьюдента
 A probability distribution used to estimate population parameters when the sample size is small or the population standard deviation is unknown.
 
@@ -133,40 +109,3 @@ A probability distribution used to compare the variances of two or more populati
 
 ---
 
-## Game Theory / Теория игр
-
-### Game — Игра
-A situation of strategic interaction between two or more players.
-
-### Players — Игроки
-The decision-makers in a game.
-
-### Strategies — Стратегии
-The complete plan of action for a player in a game.
-
-### Payoffs — Выплаты
-The outcomes or consequences of a game for each player.
-
-### Nash Equilibrium — Равновесие Нэша
-A set of strategies, one for each player, such that no player has an incentive to deviate unilaterally.
-
-### Pure Strategy — Чистая стратегия
-A strategy where a player chooses a single action with certainty.
-
-### Mixed Strategy — Смешанная стратегия
-A strategy where a player chooses actions probabilistically.
-
-### Dominant Strategy — Доминирующая стратегия
-A strategy that is always better for a player, regardless of the actions of the other players.
-
-### Prisoner's Dilemma — Дилемма заключенных
-A classic game theory example illustrating the conflict between individual rationality and collective rationality.
-
-### Zero-Sum Game — Игра с нулевой суммой
-A game where the total payoffs to all players always sum to zero.
-
-### Cooperative Game — Кооперативная игра
-A game where players can form binding agreements.
-
-### Backward Induction — Обратная индукция
-A method of solving extensive-form games by working backward from the end of the game.

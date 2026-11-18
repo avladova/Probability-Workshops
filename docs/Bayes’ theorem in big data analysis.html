@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Bayes’ theorem in big data analysis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#fafaf7;--fg:#1d1d1b;--mut:#6b6a63;--card:#fff;--bd:#cfcdc2;--a:#2f6fb0;--b:#d2552f;--ok:#2d8a5b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--fg:#ecebe4;--mut:#9a988e;--card:#222220;--bd:#46453f;--a:#6aa5e0;--b:#ef8a63;--ok:#5cc08e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171716;--fg:#ecebe4;--mut:#9a988e;--card:#222220;--bd:#46453f;--a:#6aa5e0;--b:#ef8a63;--ok:#5cc08e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Arial,Helvetica,sans-serif}
+main{max-width:880px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:28px;margin:0 0 16px}
+h2{font-size:22px;margin:0 0 16px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+button,summary{font:inherit;font-size:16px;padding:6px 12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:8px;cursor:pointer}
+button.on{background:var(--fg);color:var(--bg)}
+button:disabled{opacity:.4;cursor:default}
+section{display:none;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:20px}
+section.on{display:block}
+.row{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1 1 300px}
+svg{width:100%;max-width:380px;height:auto;display:block;margin:0 auto}
+svg text{font-family:Arial,Helvetica,sans-serif;fill:var(--fg)}
+math{font-size:22px;font-family:"STIX Two Math","Cambria Math","Latin Modern Math",serif}
+.eq{margin:8px 0;overflow-x:auto}
+label{display:block;margin:12px 0 2px}
+input[type=range]{width:100%}
+.bar{height:20px;background:var(--bd);border-radius:8px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--ok);transition:.25s}
+.chips button,.tag{margin:0 8px 8px 0}
+.tag{display:inline-block;border:1px solid var(--bd);border-radius:8px;padding:4px 12px}
+.cap{min-height:24px;font-weight:bold;text-align:center}
+table{border-collapse:collapse;width:100%}
+td,th{border-bottom:1px solid var(--bd);padding:4px 8px;text-align:right}
+td:first-child,th:first-child{text-align:left}
+.q{border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:16px}
+.q p{margin:8px 0;font-weight:bold}
+details summary{display:inline-block}
+details[open] summary{margin-bottom:8px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px}
+.tiles button{text-align:center;padding:10px 6px}
+.tiles span{display:block;font-size:28px;line-height:1.2}
+.detail{border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:16px}
+.plan{padding-left:24px}.plan li{margin:6px 0}
+a.go{color:var(--a);cursor:pointer;text-decoration:underline}
+</style></head><body><main>
+<h1>Bayes’ theorem in big data analysis</h1>
+<nav id="nav"></nav>
+
+<section id="s0"><h2>Теорема Байеса в анализе больших данных</h2>
+<div class="row"><div>
+<p><b>Владова Алла Юрьевна</b><br>д.т.н., профессор кафедры математики и анализа данных Финансового университета при Правительстве РФ</p>
+<p>Читаемые курсы:</p>
+<ul><li>Анализ данных</li><li>Математика в ИИ</li><li>Технологии обработки естественного языка</li></ul>
+<p>Лекция по дисциплине «Обработка больших данных».</p></div>
+<div><b>Lecture plan</b>
+<ol class="plan">
+<li>Conditional probability</li>
+<li>Examples</li>
+<li>Models based on conditional probabilities</li>
+<li>Naive Bayes classifier</li>
+<li>Naive Bayes today</li>
+<li>Questions</li></ol></div></div></section>
+
+<section id="s1"><h2>1. Conditional probability</h2>
+<div class="row"><div><div id="venn"></div><p><button id="tb">B occurred</button></p></div>
+<div class="eq" id="e0"></div></div></section>
+
+<section id="s2"><h2>2. Two rolls of a 6-sided die</h2>
+<div class="row"><div id="grid"></div><div>
+<label>B: min(X, Y) = <b id="kv"></b></label><input type="range" id="k" min="1" max="6" value="3">
+<label>M = max(X, Y) = <b id="mv"></b></label><input type="range" id="m" min="1" max="6" value="5">
+<div class="eq" id="e1"></div></div></div></section>
+
+<section id="s3"><h2>3. Fraud detection</h2>
+<div class="row"><div><div id="tree"></div><p class="cap" id="cap"></p><p style="text-align:center"><button id="nx">Next</button> <button id="rs">Reset</button></p></div><div>
+<label>P(A) = <b id="pav"></b></label><input type="range" id="pa" min="0.01" max="0.5" step="0.01" value="0.02">
+<label>P(B | A) = <b id="pbav"></b></label><input type="range" id="pba" min="0.5" max="1" step="0.01" value="0.9">
+<label>P(B | A<sup>c</sup>) = <b id="pbnv"></b></label><input type="range" id="pbn" min="0" max="0.4" step="0.01" value="0.1">
+<div class="eq" id="e2"></div></div></div></section>
+
+<section id="s4"><h2>4. Naive Bayes classifier</h2>
+<div class="eq" id="e3"></div>
+<div class="row"><div>
+<div class="chips" id="words"></div>
+<label>P(spam) = <b id="psv"></b></label><input type="range" id="ps" min="0.05" max="0.95" step="0.05" value="0.4">
+<div class="bar"><i id="pbar"></i></div><div id="post"></div></div>
+<div><table id="tn"></table></div></div></section>
+
+<section id="s5"><h2>5. Naive Bayes today</h2>
+<div class="tiles" id="tiles"></div>
+<div class="detail" id="detail"></div>
+<div class="row"><div id="chart"></div><div>
+<label>Amount of training data</label><input type="range" id="ds" min="0" max="10" step="0.1" value="1.5">
+<div class="cap" id="verdict"></div></div></div></section>
+
+<section id="s6"><h2>6. Questions</h2><div id="qs"></div></section>
+
+<script>
+const $=id=>document.getElementById(id);
+// MathML helpers: letters -> mi, numbers -> mn, others -> mo; X# = complement, X_i = subscript
+function M(s){s=String(s);let o='',i=0;while(i<s.length){const c=s[i];let t;
+if(/[A-Za-z]/.test(c)){t=`<mi>${c}</mi>`;if(s[i+1]=='#'){t=`<msup>${t}<mi>c</mi></msup>`;i++}else if(s[i+1]=='_'){t=`<msub>${t}<mi>${s[i+2]}</mi></msub>`;i+=2}}
+else if(/[\d.]/.test(c)){let j=i;while(/[\d.]/.test(s[j+1]||''))j++;t=`<mn>${s.slice(i,j+1)}</mn>`;i=j}
+else if(c==' '){i++;continue}else t=`<mo>${c}</mo>`;o+=t;i++}return o}
+const F=(n,d)=>`<mfrac><mrow>${M(n)}</mrow><mrow>${M(d)}</mrow></mfrac>`;
+const Q=(...a)=>'<math display="block">'+a.map(x=>x[0]=='<'?x:M(x)).join('')+'</math>';
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const simp=(n,d)=>{if(n==0)return["=0"];const g=gcd(n,d);return g>1?["=",F(n/g,d/g)]:[]};
+// tabs
+const tabs=["Intro","Conditioning","Two dice","Fraud","Naive Bayes","Applications","Questions"];
+tabs.forEach((t,i)=>{const b=document.createElement("button");b.textContent=t;b.onclick=()=>show(i);$("nav").append(b)});
+function show(i){tabs.forEach((_,j)=>{$("s"+j).classList.toggle("on",i==j);$("nav").children[j].classList.toggle("on",i==j)})}
+document.querySelectorAll("[data-t]").forEach(a=>a.onclick=()=>show(+a.dataset.t));
+// 1. Venn: circle A, diamond B, 20 outcomes
+const D=[[60,100],[85,60],[70,150],[100,170],[110,35],[160,125],[175,100],[180,140],[185,120],[240,125],[270,100],[250,160],[215,85],[290,130],[225,180],[30,195],[330,40],[260,30],[320,190],[210,200]];
+const inA=p=>(p[0]-115)**2+(p[1]-110)**2<7225,inB=p=>Math.abs(p[0]-230)/100+Math.abs(p[1]-125)/80<1;
+const nA=D.filter(inA).length,nB=D.filter(inB).length,nAB=D.filter(p=>inA(p)&&inB(p)).length,N=D.length;
+function venn(told){let s=`<svg viewBox="0 0 360 232"><rect x="10" y="10" width="340" height="200" fill="var(--bg)" stroke="var(--bd)" stroke-width="2"/>
+<circle cx="115" cy="110" r="85" fill="#2d9d6b" fill-opacity=".3" stroke="#2d9d6b" stroke-width="2"/>
+<polygon points="230,45 330,125 230,205 130,125" fill="#8a5cc4" fill-opacity=".3" stroke="#8a5cc4" stroke-width="2"/>
+<text x="20" y="30" font-size="16">Ω</text><text x="55" y="40" font-size="16" style="fill:#2d9d6b">A</text><text x="285" y="62" font-size="16" style="fill:#8a5cc4">B</text>`;
+D.forEach(p=>{s+=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="var(--fg)" opacity="${told&&!inB(p)?.15:1}"/>`});
+return s+`<text x="15" y="227" font-size="14">${told?"1/"+nB:"1/"+N} each</text></svg>`}
+let told=false;
+function d0(){$("venn").innerHTML=venn(told);$("tb").classList.toggle("on",told);
+$("e0").innerHTML=told?Q("P(A|B)=",F("P(A∩B)","P(B)"),"=",F(nAB+"/"+N,nB+"/"+N),"=",F(nAB,nB),...simp(nAB,nB)):Q("P(A)=",F(nA,N),...simp(nA,N),"   P(B)=",F(nB,N),...simp(nB,N))}
+$("tb").onclick=()=>{told=!told;d0()};d0();
+// 2. Dice 6x6
+function grid(k,m){let s='<svg viewBox="0 0 240 244">';
+for(let y=6;y>=1;y--)for(let x=1;x<=6;x++){const X=24+(x-1)*36,Y=(6-y)*36,b=Math.min(x,y)==k,mm=Math.max(x,y)==m;
+s+=`<rect x="${X}" y="${Y}" width="36" height="36" fill="${b?'var(--b)':'none'}" fill-opacity=".35" stroke="var(--bd)"/>`;
+if(mm)s+=`<rect x="${X+3}" y="${Y+3}" width="30" height="30" fill="none" stroke="var(--a)" stroke-width="3"/>`}
+for(let i=1;i<=6;i++)s+=`<text x="${24+(i-1)*36+18}" y="230" font-size="14" text-anchor="middle">${i}</text><text x="12" y="${(6-i)*36+23}" font-size="14" text-anchor="middle">${i}</text>`;
+return s+'<text x="132" y="243" font-size="13" text-anchor="middle">X</text><text x="12" y="12" font-size="13" text-anchor="middle">Y</text></svg>'}
+function cnt(k,m){let nb=0,nm=0;for(let y=1;y<=6;y++)for(let x=1;x<=6;x++){const b=Math.min(x,y)==k;nb+=b;nm+=b&&Math.max(x,y)==m}return[nb,nm]}
+function d1(){const k=+$("k").value,m=+$("m").value,[nb,nm]=cnt(k,m);$("kv").textContent=k;$("mv").textContent=m;$("grid").innerHTML=grid(k,m);
+$("e1").innerHTML=Q(`P(M=${m}|B)=`,F(`P(M=${m}∩B)`,"P(B)"),"=",F(nm+"/36",nb+"/36"),"=",F(nm,nb),...simp(nm,nb))}
+["k","m"].forEach(i=>$(i).oninput=d1);d1();
+// 3. Fraud tree, revealed step by step
+const CAP=["Prior beliefs: is the transaction fraud?","The system when it is fraud","The system when it is legitimate","An alert is raised: event B","Revised belief: is it fraud?"];
+let st=0;
+function tree(a,h,f,s){const r=v=>(+v).toFixed(2),t=(x,y,z,an="middle")=>`<text x="${x}" y="${y}" font-size="13" text-anchor="${an}">${z}</text>`,l=(x,y,X,Y)=>`<line x1="${x}" y1="${y}" x2="${X}" y2="${Y}" stroke="var(--fg)" stroke-width="1.5"/>`,hl=y=>`<rect x="248" y="${y}" width="127" height="22" rx="4" fill="var(--b)" fill-opacity=".3"/>`;
+let o='<svg viewBox="0 0 380 210">';
+if(s>=3)o+=hl(18)+hl(118);
+o+=l(10,105,120,55)+l(10,105,120,155)+t(45,68,"P(A)="+r(a))+t(45,150,"P(Aᶜ)="+r(1-a))+t(124,44,"A","start")+t(124,176,"Aᶜ","start");
+if(s>=1)o+=l(120,55,250,30)+l(120,55,250,80)+t(190,32,"P(B|A)="+r(h))+t(190,90,r(1-h))+t(255,34,"A∩B","start")+t(255,84,"A∩Bᶜ  miss","start");
+if(s>=2)o+=l(120,155,250,130)+l(120,155,250,180)+t(190,132,"P(B|Aᶜ)="+r(f))+t(190,192,r(1-f))+t(255,134,"Aᶜ∩B  false alarm","start")+t(255,184,"Aᶜ∩Bᶜ","start");
+return o+'</svg>'}
+function d2(){const a=+$("pa").value,h=+$("pba").value,f=+$("pbn").value,pb=a*h+(1-a)*f,p=a*h/pb,r=v=>v.toFixed(2);
+$("pav").textContent=a;$("pbav").textContent=h;$("pbnv").textContent=f;$("tree").innerHTML=tree(a,h,f,st);$("cap").textContent=CAP[st];$("nx").disabled=st==4;
+$("e2").innerHTML=(st==1?Q("P(A∩B)=P(A)P(B|A)=",`${r(a)}·${r(h)}=${(a*h).toFixed(4)}`):"")+(st==2?Q("P(A#∩B)=P(A#)P(B|A#)=",`${r(1-a)}·${r(f)}=${((1-a)*f).toFixed(4)}`):"")+
+(st>=3?Q("P(B)=",`${r(a)}·${r(h)}+${r(1-a)}·${r(f)}=${pb.toFixed(4)}`):"")+(st>=4?Q("P(A|B)=",F("P(A)P(B|A)","P(B)"),"=",F(`${r(a)}·${r(h)}`,pb.toFixed(4)),"="+p.toFixed(2)):"")}
+["pa","pba","pbn"].forEach(i=>$(i).oninput=d2);
+$("nx").onclick=()=>{st=Math.min(4,st+1);d2()};$("rs").onclick=()=>{st=0;d2()};d2();
+// 4. Naive Bayes
+$("e3").innerHTML=Q("P(c|w_1,…,w_n)=",F("P(c)∏P(w_j|c)","ΣP(k)∏P(w_j|k)"));
+const W=["free","win","money","meeting","report"],S=[240,160,200,20,40],H=[30,18,60,240,210],on={free:1,win:1};
+W.forEach(w=>{const b=document.createElement("button");b.textContent=w;b.id="w_"+w;b.onclick=()=>{on[w]=!on[w];d3()};$("words").append(b)});
+function d3(){const ps=+$("ps").value;$("psv").textContent=ps.toFixed(2);let ls=Math.log(ps),lh=Math.log(1-ps),r=`<tr><th></th><th>log-odds</th></tr><tr><td>prior</td><td>${(ls-lh).toFixed(2)}</td></tr>`;
+W.forEach((w,i)=>{$("w_"+w).classList.toggle("on",!!on[w]);const p=(S[i]+1)/402,q=(H[i]+1)/602,a=on[w]?p:1-p,b=on[w]?q:1-q;ls+=Math.log(a);lh+=Math.log(b);r+=`<tr><td>${on[w]?"":"no "}${w}</td><td>${Math.log(a/b).toFixed(2)}</td></tr>`});
+const post=1/(1+Math.exp(lh-ls));$("tn").innerHTML=r+`<tr><td><b>total</b></td><td><b>${(ls-lh).toFixed(2)}</b></td></tr>`;
+$("pbar").style.width=post*100+"%";$("post").innerHTML=`P(spam | words) = <b>${(100*post).toFixed(1)}%</b> → ${post>.5?"spam":"ham"}`}
+$("ps").oninput=d3;d3();
+// 5. Applications: tiles + schematic learning curves
+const AP=[["📧","Spam filter",["free","win","money"],"spam",97],["💬","Sentiment",["great","love","fast"],"positive",94],["🧬","DNA reads",["k-mer 1","k-mer 2","k-mer 3"],"taxon X",88],["🩺","Medical support",["symptom 1","symptom 2","test +"],"diagnosis Y",81],["💳","Fraud",["night","new country","large amount"],"fraud",72],["📰","News topics",["goal","league","coach"],"sport",96]];
+AP.forEach((a,i)=>{const b=document.createElement("button");b.innerHTML=`<span>${a[0]}</span>${a[1]}`;b.onclick=()=>ap(i);$("tiles").append(b)});
+function ap(i){const a=AP[i];[...$("tiles").children].forEach((b,j)=>b.classList.toggle("on",i==j));
+$("detail").innerHTML=`<div>${a[2].map(w=>`<span class="tag">${w}</span>`).join("")}</div><div class="bar"><i style="width:${a[4]}%"></i></div><div>P(<b>${a[3]}</b> | evidence) = ${a[4]}%  <span style="color:var(--mut)">(illustrative)</span></div>`}
+ap(0);
+const nbF=x=>.80-.30*Math.exp(-x/1.2),nnF=x=>.92-.55*Math.exp(-x/4),px=x=>40+x*30,py=v=>170-(v-.2)/.8*150;
+function chart(x){const pl=f=>{let s="";for(let i=0;i<=100;i++){const u=i/10;s+=px(u)+","+py(f(u))+" "}return s};
+return `<svg viewBox="0 0 380 220"><line x1="40" y1="170" x2="340" y2="170" stroke="var(--fg)"/><line x1="40" y1="20" x2="40" y2="170" stroke="var(--fg)"/>
+<polyline points="${pl(nbF)}" fill="none" stroke="var(--b)" stroke-width="3"/><polyline points="${pl(nnF)}" fill="none" stroke="var(--a)" stroke-width="3"/>
+<line x1="${px(x)}" y1="20" x2="${px(x)}" y2="170" stroke="var(--mut)" stroke-dasharray="4"/>
+<text x="190" y="195" font-size="13" text-anchor="middle">training data</text><text x="14" y="95" font-size="13" text-anchor="middle" transform="rotate(-90 14 95)">accuracy</text>
+<text x="48" y="36" font-size="13" style="fill:var(--b)">Naive Bayes</text><text x="48" y="54" font-size="13" style="fill:var(--a)">Neural network</text><text x="190" y="213" font-size="12" text-anchor="middle" style="fill:var(--mut)">schematic</text></svg>`}
+function d5(){const x=+$("ds").value;$("chart").innerHTML=chart(x);$("verdict").textContent=nbF(x)>nnF(x)?"Little data: Naive Bayes is ahead":"Lots of data: neural network is ahead"}
+$("ds").oninput=d5;d5();
+// 6. Questions
+function nbpic(){return `<svg viewBox="0 0 380 150"><rect x="10" y="20" width="170" height="90" fill="none" stroke="var(--b)" stroke-width="2" rx="8"/><rect x="200" y="20" width="170" height="90" fill="none" stroke="var(--a)" stroke-width="2" rx="8"/>
+<text x="95" y="50" font-size="16" text-anchor="middle">spam</text><text x="95" y="75" font-size="14" text-anchor="middle">P = 0.5</text><text x="95" y="98" font-size="14" text-anchor="middle">P(free|spam) = 0.6</text>
+<text x="285" y="50" font-size="16" text-anchor="middle">ham</text><text x="285" y="75" font-size="14" text-anchor="middle">P = 0.5</text><text x="285" y="98" font-size="14" text-anchor="middle">P(free|ham) = 0.05</text>
+<text x="190" y="140" font-size="14" text-anchor="middle">message contains “free”</text></svg>`}
+const qs=[
+[venn(true),"B occurred. What is P(A | B)?",Q("P(A|B)=",F(nAB,nB),...simp(nAB,nB))],
+[grid(3,5),"B: min(X, Y) = 3. What is P(M = 5 | B)?",Q("P(M=5|B)=",F("2/36","7/36"),"=",F("2","7"))],
+[grid(3,2),"B: min(X, Y) = 3. What is P(M = 2 | B)?",Q("P(M=2|B)=0")],
+[tree(.02,.9,.1,3),"An alert is raised. What is P(A | B)?",Q("P(A|B)=",F("0.02·0.9","0.116"),"≈0.16")],
+[nbpic(),"Message contains “free”. What is P(spam | free)?",Q("P(spam|free)=",F("0.5·0.6","0.5·0.6+0.5·0.05"),"=0.92")]];
+$("qs").innerHTML=qs.map(q=>`<div class="q">${q[0]}<p>${q[1]}</p><details><summary>Answer</summary>${q[2]}</details></div>`).join("");
+show(0);
+</script></main></body></html>
